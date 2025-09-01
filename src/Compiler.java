@@ -86,14 +86,8 @@ public class Compiler {
         options.add("-d");
         options.add(compilationPath);
         options.add("-classpath");
-        URLClassLoader urlClassLoader =
-                (URLClassLoader) Thread.currentThread().getContextClassLoader();
-        StringBuilder sb = new StringBuilder();
-        for (URL url : urlClassLoader.getURLs()) {
-            sb.append(url.getFile()).append(File.pathSeparator);
-        }
-        sb.append(compilationPath);
-        options.add(sb.toString());
+        String classpath = System.getProperty("java.class.path") + File.pathSeparator + compilationPath;
+        options.add(classpath);
 
         StringWriter output = new StringWriter();
         boolean success = jc.getTask(output, null, null, options, null, fileObjects).call();

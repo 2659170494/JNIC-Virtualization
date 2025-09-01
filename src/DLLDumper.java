@@ -31,8 +31,8 @@ public class DLLDumper {
     public static void invokeJar(String jarPath) {
         new Thread(() -> {
             try {
-                URLClassLoader ucl = (URLClassLoader) DLLDumper.class.getClassLoader();
-                ClassLoader loader = new URLClassLoader(new URL[]{new File(jarPath).toURI().toURL()}, ucl);
+                ClassLoader parent = DLLDumper.class.getClassLoader();
+                ClassLoader loader = new URLClassLoader(new URL[]{new File(jarPath).toURI().toURL()}, parent);
                 Thread.currentThread().setContextClassLoader(loader);
                 Class<?> cls = null;
                 cls = Class.forName("dev.jnic." + Main.packageName + ".JNICLoader", true, loader);
